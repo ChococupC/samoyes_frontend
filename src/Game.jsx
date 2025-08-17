@@ -20,7 +20,7 @@ function Game({ res }) {
   const [selectedBoxes, setSelectedBoxes] = useState({});
   const [usedCategories, setUsedCategories] = useState([]);
   const [boxSize, setBoxSize] = useState({});
-  const [start, setStart] = useState(false);
+  const [start, setStart] = useState();
   const [tries, setTries] = useState(4);
   const [win, setWin] = useState(Boolean);
   const startMessage = {
@@ -40,23 +40,22 @@ function Game({ res }) {
         setTries(cookieTries);
         setCategoriesWin(cookieCategory);
         for (let i = 0; i < cookieCategory.length; i++) {
-          RemoveSelectedBoxes(words[i], setPuzzleWords);
+          RemoveSelectedBoxes(words[cookieCategory[i]], setPuzzleWords);
         }
       }
     }
 
     fetchCookie();
   }, []);
-
   return (
     <>
-      <div className={`startingwrapper ${start ? "animate_start" : ""}`}>
+      <div className={`startingwrapper ${start}`}>
         <div className={"startanimation"}>
           <img src="categorize.jpg" className="category_image" />
           <h1>Categorize</h1>
           <p>Match AP Psychology Words into Groups of Four!</p>
           <Button
-            onClick={() => setStart(true)}
+            onClick={() => setStart("animate_start")}
             id="start_button"
             className="start_button"
           >

@@ -114,7 +114,7 @@ async function CheckWinHandler({
           `${tries}${categoriesWin.join("")}${i}`
         );
         setSelectedBoxes([]);
-      }, 200);
+      }, 300);
       return;
     } else if (matches === 3) {
       Message(setMessage, "You're Close...");
@@ -141,6 +141,7 @@ async function CheckWinHandler({
   //if lose
   if (current_tries == 0) {
     setTimeout(function () {
+      setCookieMidNight("categorize", `00123`);
       Message(setMessage, "Try again tomorrow!");
       setSelectedBoxes([]);
       Lose(setCategoriesWin, categoriesWin, words, setPuzzleWords, setStart);
@@ -206,11 +207,8 @@ function CreateCategory({
   }, [latest]);
 
   useEffect(() => {
-    if (fast) {
-      setAnimation(false);
-    }
+    setAnimation(true);
   }, [fast]);
-
   return (
     <div
       className={`category ${
@@ -232,11 +230,13 @@ function RemoveSelectedBoxes(words, setPuzzleWords) {
 function CreateTries({ tries }) {
   const tries_items = [];
   for (let i = 0; i < tries; i++) {
-    if (tries !== 4 && i == tries - 1) {
-      tries_items.push([
-        <div key={`try-${i + 1}`} className="try" id={`try${i + 1}`}></div>,
-        <div key={`try-${4}`} className="try animate_pop" id={`try${4}`}></div>,
-      ]);
+    if (tries != 4 && i === tries - 1) {
+      tries_items.push(
+        <div key={`try-${i + 1}`} className="try" id={`try${i + 1}`}></div>
+      );
+      tries_items.push(
+        <div key={`try-4`} className="try animate_pop" id={`try4`}></div>
+      );
     } else {
       tries_items.push(
         <div key={`try-${i + 1}`} className="try" id={`try${i + 1}`}></div>
