@@ -9,17 +9,12 @@ import {
   Confetti,
   RemoveSelectedBoxes,
 } from "./components/categorize/Categorize";
-import getCategories from "./tools/Connect";
 import { Shuffle } from "./components/button/on_click";
 
-const response = await getCategories();
-
-function Game() {
-  const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [categories, setCategories] = useState([]);
-  const [words, setWords] = useState([]);
-  const [puzzlewords, setPuzzleWords] = useState("");
+function Game({ res }) {
+  const [categories, setCategories] = useState(res.data.categories);
+  const [words, setWords] = useState(res.data.words);
+  const [puzzlewords, setPuzzleWords] = useState(res.data.puzzle_words);
   const [message, setMessage] = useState();
   const [categoriesWin, setCategoriesWin] = useState([]);
   const [selectedBoxes, setSelectedBoxes] = useState({});
@@ -37,57 +32,22 @@ function Game() {
   };
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await getCategories();
-        const res_words = res.data.words;
-        setResponse(res);
-        setCategories(res.data.categories);
-        setWords(res_words);
-        setPuzzleWords(res.data.puzzle_words);
-        const cookieValue = Cookies.get("categorize");
-        if (cookieValue) {
-          const cookieTries = cookieValue[0];
-          const cookieCategory = cookieValue.slice(1).split("");
-          setTries(cookieTries);
-          setCategoriesWin(cookieCategory);
-          for (let i = 0; i < cookieCategory.length; i++) {
-            RemoveSelectedBoxes(res_words[i], setPuzzleWords);
-          }
+    function fetchCookie() {
+      const cookieValue = Cookies.get("categorize");
+      if (cookieValue) {
+        const cookieTries = cookieValue[0];
+        const cookieCategory = cookieValue.slice(1).split("");
+        setTries(cookieTries);
+        setCategoriesWin(cookieCategory);
+        for (let i = 0; i < cookieCategory.length; i++) {
+          RemoveSelectedBoxes(words[i], setPuzzleWords);
         }
-      } catch (error) {
-        console.error("Error fetching categories:");
-      } finally {
-        setLoading(false); // always stop loading
       }
     }
 
-    fetchData();
+    fetchCookie();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="startingwrapper">
-        <div className="startanimation">
-          <div className="loader"></div>
-        </div>
-      </div>
-    );
-  }
-
-  // Handle API error
-  if (response.code !== 200) {
-    return (
-      <div className="startingwrapper">
-        <div className="startanimation">
-          <img src="categorize.jpg" className="category_image" />
-          <h1>Categorize</h1>
-          <p>So sorry!</p>
-          <h3>{response.message}</h3>
-        </div>
-      </div>
-    );
-  }
   return (
     <>
       <div className={`startingwrapper ${start ? "animate_start" : ""}`}>
