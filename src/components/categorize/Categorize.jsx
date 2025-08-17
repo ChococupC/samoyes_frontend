@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import setCookieMidNight from "../../tools/Cookie";
 
 function Confetti({ win }) {
   if (!win) {
@@ -65,7 +66,7 @@ async function CheckWinHandler({
   categoriesWin,
   setPuzzleWords,
   setMessage,
-  settries,
+  setTries,
   tries,
   setUsedCategories,
   usedCategories,
@@ -93,6 +94,7 @@ async function CheckWinHandler({
     if (matches === 4) {
       // if win
       if (categoriesWin.length === 3) {
+        setCookieMidNight("categorize", `${tries}0123`);
         setWin(true);
         Message(setMessage, "Congradulations!");
         setTimeout(() => setStart("animate_end"), 2500);
@@ -107,6 +109,10 @@ async function CheckWinHandler({
         setCategoriesWin((prev) => {
           return [...prev, i];
         });
+        setCookieMidNight(
+          "categorize",
+          `${tries}${categoriesWin.join("")}${i}`
+        );
         setSelectedBoxes([]);
       }, 200);
       return;
@@ -116,7 +122,8 @@ async function CheckWinHandler({
   }
   //lose try
   const current_tries = tries - 1;
-  settries((prev) => prev - 1);
+  setCookieMidNight("categorize", `${current_tries}${categoriesWin.join("")}`);
+  setTries((prev) => prev - 1);
 
   //if fail
   setSelectedBoxes((prev) => {
@@ -182,28 +189,32 @@ function CreateCategory({
   latest,
   fast,
 }) {
-  const [animation, setAnimation] = useState(true);
+  const [animation, setAnimation] = useState(Boolean);
+  const [animationType, setAnimationType] = useState(true);
   const id = category;
   const word = words[id];
   const height = boxSize.height;
   useEffect(() => {
     if (latest) {
-      setAnimation(false);
+      setAnimation(true);
+      setAnimationType(false);
       const timer = setTimeout(() => {
-        setAnimation(true);
+        setAnimationType(true);
       }, 900);
       return () => clearTimeout(timer);
     }
   }, [latest]);
 
-  if (fast) {
-    setAnimation(false);
-  }
+  useEffect(() => {
+    if (fast) {
+      setAnimation(false);
+    }
+  }, [fast]);
 
   return (
     <div
       className={`category ${
-        latest ? (animation ? "animate_appear" : "animate_fade") : ""
+        animation ? (animationType ? "animate_appear" : "animate_fade") : ""
       }`}
       id={`category${id}`}
       style={{ height: height }}
@@ -258,7 +269,6 @@ async function lose_category(
 ) {
   for (let i = 0; i < array.length; i++) {
     const words_array = words[array[i]];
-    console.log(words_array);
     setPuzzleWords((prev) => [
       ...words_array,
       ...prev.filter((word) => !words_array.includes(word)),
@@ -292,4 +302,10 @@ function Message(setMessage, message) {
   }, 2000);
 }
 
-export { CheckWinHandler, CategoryList, CreateTries, Confetti };
+export {
+  CheckWinHandler,
+  CategoryList,
+  CreateTries,
+  Confetti,
+  RemoveSelectedBoxes,
+};

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import GridGameBox from "./components/categorize/GridGameBox";
 import Button from "./components/button/Button";
 import {
@@ -6,6 +7,7 @@ import {
   CategoryList,
   CreateTries,
   Confetti,
+  RemoveSelectedBoxes,
 } from "./components/categorize/Categorize";
 import getCategories from "./tools/Connect";
 import { Shuffle } from "./components/button/on_click";
@@ -23,8 +25,8 @@ function Game() {
   const [selectedBoxes, setSelectedBoxes] = useState({});
   const [usedCategories, setUsedCategories] = useState([]);
   const [boxSize, setBoxSize] = useState({});
-  const [start, setStart] = useState("");
-  const [tries, settries] = useState(4);
+  const [start, setStart] = useState(false);
+  const [tries, setTries] = useState(4);
   const [win, setWin] = useState(Boolean);
   const startMessage = {
     0: "Lets Start!",
@@ -38,13 +40,23 @@ function Game() {
     async function fetchData() {
       try {
         const res = await getCategories();
+        const res_words = res.data.words;
         setResponse(res);
         setCategories(res.data.categories);
-        setWords(res.data.words);
+        setWords(res_words);
         setPuzzleWords(res.data.puzzle_words);
+        const cookieValue = Cookies.get("categorize");
+        if (cookieValue) {
+          const cookieTries = cookieValue[0];
+          const cookieCategory = cookieValue.slice(1).split("");
+          setTries(cookieTries);
+          setCategoriesWin(cookieCategory);
+          for (let i = 0; i < cookieCategory.length; i++) {
+            RemoveSelectedBoxes(res_words[i], setPuzzleWords);
+          }
+        }
       } catch (error) {
-        console.error("Error fetching categories:", error);
-        setResponse({ code: 500, message: "Failed to load categories" });
+        console.error("Error fetching categories:");
       } finally {
         setLoading(false); // always stop loading
       }
@@ -76,16 +88,15 @@ function Game() {
       </div>
     );
   }
-
   return (
     <>
-      <div className={`startingwrapper ${start}`}>
+      <div className={`startingwrapper ${start ? "animate_start" : ""}`}>
         <div className={"startanimation"}>
           <img src="categorize.jpg" className="category_image" />
           <h1>Categorize</h1>
           <p>Match AP Psychology Words into Groups of Four!</p>
           <Button
-            onClick={() => setStart("animate_start")}
+            onClick={() => setStart(true)}
             id="start_button"
             className="start_button"
           >
@@ -111,7 +122,7 @@ function Game() {
                 words={words}
                 categoriesWin={categoriesWin}
                 boxSize={boxSize}
-                fast={false}
+                fast={start ? true : false}
               />
             </div>
             <div className="main_game_wrapper">
@@ -167,7 +178,7 @@ function Game() {
                         categoriesWin: categoriesWin,
                         setPuzzleWords: setPuzzleWords,
                         setMessage: setMessage,
-                        settries: settries,
+                        setTries: setTries,
                         tries: tries,
                         setUsedCategories: setUsedCategories,
                         usedCategories: usedCategories,
