@@ -374,11 +374,11 @@ header p {
 }
 
 .animate_fade {
-  animation: categoryfade 2s forwards;
+  animation: categoryfade 0.5s forwards;
 }
 
 .animate_appear {
-  animation: categoryappear 0.75s ease;
+  animation: categoryappear 0.6s ease;
 }
 
 @keyframes categoryfade {
@@ -388,10 +388,13 @@ header p {
     opacity: 1;
   }
   80% {
-    color: white;
-    background-color: #ffffff;
+    background-color: #dddddd;
+    color: #dddddd;
+    opacity: 0.25;
   }
   100% {
+    color: #dddddd;
+    background-color: #dddddd;
     opacity: 0;
   }
 }

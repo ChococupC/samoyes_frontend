@@ -17,6 +17,7 @@ function Game({ res }) {
   const [puzzlewords, setPuzzleWords] = useState(res.data.puzzle_words);
   const [message, setMessage] = useState();
   const [categoriesWin, setCategoriesWin] = useState([]);
+  const [fast, setFast] = useState(true);
   const [selectedBoxes, setSelectedBoxes] = useState({});
   const [usedCategories, setUsedCategories] = useState([]);
   const [boxSize, setBoxSize] = useState({});
@@ -81,7 +82,7 @@ function Game({ res }) {
                 words={words}
                 categoriesWin={categoriesWin}
                 boxSize={boxSize}
-                fast={start ? true : false}
+                fast={fast}
               />
             </div>
             <div className="main_game_wrapper">

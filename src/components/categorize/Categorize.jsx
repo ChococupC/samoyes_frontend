@@ -141,7 +141,6 @@ async function CheckWinHandler({
   //if lose
   if (current_tries == 0) {
     setTimeout(function () {
-      setCookieMidNight("categorize", `00123`);
       Message(setMessage, "Try again tomorrow!");
       setSelectedBoxes([]);
       Lose(setCategoriesWin, categoriesWin, words, setPuzzleWords, setStart);
@@ -162,7 +161,7 @@ function BoxAnimate({ prev, animation }) {
   return updated;
 }
 
-function CategoryList({ categories, words, categoriesWin, boxSize, fast }) {
+function CategoryList({ categories, words, categoriesWin, boxSize }) {
   return (
     <>
       {categoriesWin.map((category, index) => {
@@ -174,7 +173,6 @@ function CategoryList({ categories, words, categoriesWin, boxSize, fast }) {
             words={words}
             boxSize={boxSize}
             latest={index == categoriesWin.length - 1}
-            fast={fast}
           ></CreateCategory>
         );
       })}
@@ -182,14 +180,7 @@ function CategoryList({ categories, words, categoriesWin, boxSize, fast }) {
   );
 }
 
-function CreateCategory({
-  category,
-  categories,
-  words,
-  boxSize,
-  latest,
-  fast,
-}) {
+function CreateCategory({ category, categories, words, boxSize, latest }) {
   const [animation, setAnimation] = useState(Boolean);
   const [animationType, setAnimationType] = useState(true);
   const id = category;
@@ -201,18 +192,15 @@ function CreateCategory({
       setAnimationType(false);
       const timer = setTimeout(() => {
         setAnimationType(true);
-      }, 900);
+      }, 400);
       return () => clearTimeout(timer);
     }
   }, [latest]);
 
-  useEffect(() => {
-    setAnimation(true);
-  }, [fast]);
   return (
     <div
       className={`category ${
-        animation ? (animationType ? "animate_appear" : "animate_fade") : ""
+        latest ? (animationType ? "animate_appear" : "animate_fade") : ""
       }`}
       id={`category${id}`}
       style={{ height: height }}
@@ -230,13 +218,11 @@ function RemoveSelectedBoxes(words, setPuzzleWords) {
 function CreateTries({ tries }) {
   const tries_items = [];
   for (let i = 0; i < tries; i++) {
-    if (tries != 4 && i === tries - 1) {
-      tries_items.push(
-        <div key={`try-${i + 1}`} className="try" id={`try${i + 1}`}></div>
-      );
-      tries_items.push(
-        <div key={`try-4`} className="try animate_pop" id={`try4`}></div>
-      );
+    if (tries != 4 && i == tries - 1) {
+      tries_items.push([
+        <div key={`try-${i + 1}`} className="try" id={`try${i + 1}`}></div>,
+        <div key={`try-${4}`} className="try animate_pop" id={`try${4}`}></div>,
+      ]);
     } else {
       tries_items.push(
         <div key={`try-${i + 1}`} className="try" id={`try${i + 1}`}></div>
