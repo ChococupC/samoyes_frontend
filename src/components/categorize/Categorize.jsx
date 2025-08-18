@@ -96,7 +96,7 @@ async function CheckWinHandler({
       if (categoriesWin.length === 3) {
         setCookieMidNight("categorize", `${tries}0123`);
         setWin(true);
-        Message(setMessage, "Congradulations!");
+        Message(setMessage, "Congratulations!");
         setTimeout(() => setStart("animate_end"), 2500);
       }
 
