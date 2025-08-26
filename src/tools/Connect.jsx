@@ -25,7 +25,6 @@ function getLocalDate() {
 
 async function getCategories() {
   const dt = getLocalDate();
-  console.log(dt);
   const res = await fetch(
     `https://samoyes.onrender.com/samoyes_API/categorize/?date=${dt}`
   );
