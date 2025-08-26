@@ -1,3 +1,4 @@
 js-cookie
 npm
 react
+API_KEY=rnd_h9CYzOB0GPcHpmKOnGk2KAKfPFj8

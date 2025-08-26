@@ -35,14 +35,18 @@ function App() {
   // Handle API error
   if (response.code !== 200) {
     return (
-      <div className="startingwrapper">
-        <div className="startanimation">
-          <img src="categorize.jpg" className="category_image" />
-          <h1>Categorize</h1>
-          <p>So sorry!</p>
-          <h3>{response.message}</h3>
+      <>
+        <Header />
+        <div className="startingwrapper">
+          <div className="startanimation">
+            <img src="categorize.jpg" className="category_image" />
+            <h1>Categorize</h1>
+            <p>So sorry!</p>
+            <h3>{response.message}</h3>
+          </div>
         </div>
-      </div>
+        <Footer />
+      </>
     );
   }
 
