@@ -140,6 +140,7 @@ async function CheckWinHandler({
 
   //if lose
   if (current_tries == 0) {
+    setCookieMidNight("categorize", `00123`);
     setTimeout(function () {
       Message(setMessage, "Try again tomorrow!");
       setSelectedBoxes([]);
