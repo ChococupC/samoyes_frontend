@@ -4,7 +4,7 @@
 
 Study AP Free and Fun!
 
-SamoYes is a web app designed to make AP studying engaging, effective, and stress-free. Through interactive daily games, we help you solidify your AP knowledge while keeping up with the most recent course materials. The goal? So you can always say yes to questions, yes to grades, and yes to schools.
+SamoYes is a web app using REACT + FASTAPI, designed to make AP studying engaging, effective, and stress-free. Through interactive daily games, we help you solidify your AP knowledge while keeping up with the most recent course materials. The goal? So you can always say yes to questions, yes to grades, and yes to schools.
 
 🪙 Features
 
