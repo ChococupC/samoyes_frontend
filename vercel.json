@@ -1,7 +1,3 @@
 {
-  "routes": [
-    { "src": "/", "dest": "/" },
-    { "src": "/categorize", "dest": "/" },
-    { "src": "/categorize/tutorial", "dest": "/" }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
