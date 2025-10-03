@@ -10,6 +10,8 @@ SamoYes is a web app using REACT + FASTAPI, designed to make AP studying engagin
 
 ✨ Fully Automatic
 
+Work on mobile device too!
+
 Never worry about repetitive practicing with Samoyes!
 
 Yesi searches in the database and picks out the right game for you.
