@@ -1,0 +1,7 @@
+{
+  "routes": [
+    { "src": "/", "dest": "/" },
+    { "src": "/categorize", "dest": "/categorize" },
+    { "src": "/categorize/tutorial", "dest": "/categorize/tutorial" }
+  ]
+}
