@@ -1,4 +1,4 @@
-// response looks like: {
+// example response from api: {
 //   code: 200,
 //   message: "success",
 //   data: {
@@ -23,13 +23,13 @@ function getLocalDate() {
   return `${year}-${month}-${day}`;
 }
 
-async function getCategories() {
+export async function getCategories(url) {
+  if (!url.endsWith("/")) {
+    console.error("Please provide full url, missing '/'.");
+    return NaN;
+  }
   const dt = getLocalDate();
-  const res = await fetch(
-    `https://samoyes.onrender.com/samoyes_API/categorize/?date=${dt}`
-  );
-  const data = await res.json();
+  const response = await fetch(`${url}?date=${dt}`);
+  const data = await response.json();
   return data;
 }
-
-export default getCategories;

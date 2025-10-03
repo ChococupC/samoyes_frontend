@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-function setCookieMidNight(key, value) {
+export function setCookieMidNight(key, value) {
   // Get today's date
   const now = new Date();
 
@@ -18,4 +18,18 @@ function setCookieMidNight(key, value) {
   Cookies.set(key, value, { expires: midnight });
 }
 
-export default setCookieMidNight;
+export function setCookie(key, value, time) {
+  // Set the cookie to expire at midnight
+  Cookies.set(key, value, { expires: time });
+}
+
+export function fetchCookie(cookieKey, error = true) {
+  const cookieValue = Cookies.get(cookieKey);
+  if (cookieValue) {
+    return cookieValue;
+  }
+  if (error) {
+    console.error(`CookieNotFound with key ${cookieKey}`);
+  }
+  return;
+}

@@ -1,6 +1,41 @@
 import { useEffect, useRef, useState } from "react";
+import style from "../../pages/categorize/categorize.module.css";
 
-function GameBox({ text, isSelected, onClick, setBoxSize }) {
+export function GameBoxWrapper({
+  selectedBoxes,
+  setSelectedBoxes,
+  words,
+  setBoxSize,
+}) {
+  const HandleBoxClick = (word) => {
+    if (selectedBoxes[word]) {
+      setSelectedBoxes((prevSelectedBoxes) => {
+        const newSelectedBoxes = { ...prevSelectedBoxes };
+        delete newSelectedBoxes[word];
+        return newSelectedBoxes;
+      });
+    } else if (Object.keys(selectedBoxes).length < 4) {
+      setSelectedBoxes({ ...selectedBoxes, [word]: { animation: null } });
+    }
+  };
+
+  return (
+    <div className={style.main_game_wrapper}>
+      {words.map((word, index) => (
+        <GameBox
+          key={index}
+          text={word}
+          isSelected={selectedBoxes[word]}
+          onClick={() => HandleBoxClick(word)}
+          setBoxSize={setBoxSize}
+        />
+      ))}
+      <span></span>
+    </div>
+  );
+}
+
+const GameBox = ({ text, isSelected, onClick, setBoxSize }) => {
   const boxRef = useRef(null);
   const [fontSize, setFontSize] = useState(16);
 
@@ -12,7 +47,7 @@ function GameBox({ text, isSelected, onClick, setBoxSize }) {
       );
       const element = boxRef.current;
       const containerWidth = mediaQuery.matches
-        ? element.offsetHeight + 8
+        ? element.offsetHeight
         : element.offsetWidth;
       setBoxSize({
         width: containerWidth * 4 + 15,
@@ -53,9 +88,9 @@ function GameBox({ text, isSelected, onClick, setBoxSize }) {
   return (
     <div
       ref={boxRef}
-      className={`game_box ${isSelected ? "game_box_selected" : ""} ${
-        isSelected?.animation || ""
-      }`}
+      className={`${style.game_box} ${
+        isSelected ? style.game_box_selected : ""
+      } ${isSelected ? style[isSelected.animation] : ""}`}
       style={{
         fontSize: `${fontSize}px`,
       }}
@@ -64,6 +99,4 @@ function GameBox({ text, isSelected, onClick, setBoxSize }) {
       {text}
     </div>
   );
-}
-
-export default GameBox;
+};
