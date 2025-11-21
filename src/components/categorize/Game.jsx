@@ -84,7 +84,9 @@ export function Game({ res, isTutorial }) {
             >
               Yes!
             </Button_Link>
-            <Button className={style.no} onClick={() => setTutorial(false)}>
+            <Button 
+              className={style.no} 
+              onClick={() => {setTutorial(false); setCookie("tutorial", 1, 3650)}}>
               Nope
             </Button>
           </div>

@@ -44,22 +44,34 @@ header {
   width: 100%;
   height: 50px;
   background-color: #ffffff;
-  display: flex;
-  align-items: center;
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
+nav {
+  height:fit-content;
+  display: flex;
+  align-items: center;
+
+}
+
+header hr{
+  opacity: 0;
+  border: none;
+  border-top: 2px solid #242520;
+  transition: opacity 1s;
+}
+
 .border_bottom {
-  border-bottom: #242520 solid 1px;
+  opacity: 1;
 }
 
 .samoyes {
   font-family: "Pacifico", sans-serif;
   color: #242520;
   font-size: 25px;
-  margin: 4px;
+  margin: 2px;
 }
 
 .yes {
