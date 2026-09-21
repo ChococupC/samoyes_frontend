@@ -38,7 +38,7 @@ export function Page() {
       <Layout className={style.body}>
         <div className={style.startingwrapper}>
           <div className={style.startanimation}>
-            <img src="categorize.jpg" className={style.category_image} />
+            <img src="/categorize.jpg" className={style.category_image} />
             <h1>Categorize</h1>
             <p>So sorry!</p>
             <h3>{response.message}</h3>
