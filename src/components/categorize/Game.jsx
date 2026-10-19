@@ -36,20 +36,14 @@ export function Game({ res, isTutorial }) {
   };
 
   useEffect(() => {
-    if (!isTutorial) {
-      const cookieValue = fetchCookie("categorize", false);
-      if (cookieValue) {
-        setTries(cookieValue[0]);
-        const cookieCategory = cookieValue.slice(1).split("");
-        setCategoriesWin(cookieCategory);
-        for (let i = 0; i < cookieCategory.length; i++) {
-          RemoveSelectedBoxes(words[cookieCategory[i]], setPuzzleWords);
-        }
-      }
-      const cookieTutorialValue = fetchCookie("tutorial", false);
-      if (!cookieTutorialValue) {
-        setFirst(true);
-      }
+    const cookieValue = fetchCookie("categorize", false);
+    if (cookieValue) {
+    setTries(cookieValue[0]);
+    const cookieCategory = cookieValue.slice(1).split("");
+    setCategoriesWin(cookieCategory);
+    for (let i = 0; i < cookieCategory.length; i++) {
+      RemoveSelectedBoxes(words[cookieCategory[i]], setPuzzleWords);
+    }
     }
   }, []);
   return (
@@ -62,9 +56,6 @@ export function Game({ res, isTutorial }) {
           <Button
             onClick={() => {
               setStart("animate_start");
-              if (first) {
-                setTutorial(true);
-              }
             }}
             id="category_button_start"
             className={style.start_button}
@@ -73,23 +64,23 @@ export function Game({ res, isTutorial }) {
           </Button>
         </div>
       </div>
-      <div className={`${style.tip_wrapper} ${tutorial ? style.activate : ""}`}>
-        <div className={style.tutorial}>
-          <h1>Would you like to do an easier one?</h1>
-          <div className={style.tutorial_button_wrapper}>
-            <Button_Link
-              className={style.yes}
-              to={"/categorize/tutorial"}
-              onClick={() => setCookie("tutorial", 1, 3650)}
-            >
-              Yes!
-            </Button_Link>
-            <Button className={style.no} onClick={() => setTutorial(false)}>
-              Nope
-            </Button>
-          </div>
-        </div>
-      </div>
+{/*       <div className={`${style.tip_wrapper} ${tutorial ? style.activate : ""}`}> */}
+{/*         <div className={style.tutorial}> */}
+{/*           <h1>Would you like to do an easier one?</h1> */}
+{/*           <div className={style.tutorial_button_wrapper}> */}
+{/*             <Button_Link */}
+{/*               className={style.yes} */}
+{/*               to={"/categorize/tutorial"} */}
+{/*               onClick={() => setCookie("tutorial", 1, 3650)} */}
+{/*             > */}
+{/*               Yes! */}
+{/*             </Button_Link> */}
+{/*             <Button className={style.no} onClick={() => setTutorial(false)}> */}
+{/*               Nope */}
+{/*             </Button> */}
+{/*           </div> */}
+{/*         </div> */}
+{/*       </div> */}
       <div className={style.content_wrapper}>
         <Confetti win={win} />
         <div
@@ -99,15 +90,15 @@ export function Game({ res, isTutorial }) {
         </div>
         <div className={style.game_wrapper}>
           <div className={style.tool_wrapper}>
-            {!isTutorial ? (
-              <Tool onClick={() => setTutorial(true)} tooltext={"Tutorial"}>
-                ?
-              </Tool>
-            ) : (
-              <HashLink to="/categorize">
-                <Tool tooltext={"Real Game"}>!</Tool>
-              </HashLink>
-            )}
+{/*             {!isTutorial ? ( */}
+{/*               <Tool onClick={() => setTutorial(true)} tooltext={"Tutorial"}> */}
+{/*                 ? */}
+{/*               </Tool> */}
+{/*             ) : ( */}
+{/*               <HashLink to="/categorize"> */}
+{/*                 <Tool tooltext={"Real Game"}>!</Tool> */}
+{/*               </HashLink> */}
+{/*             )} */}
           </div>
           <p>Categorize Them into Four Groups!</p>
           <main>

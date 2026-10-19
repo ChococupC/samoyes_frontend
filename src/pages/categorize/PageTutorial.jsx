@@ -2,6 +2,7 @@ import { Game } from "../../components/categorize/Game";
 import { Layout } from "../../components/Layout";
 import style from "./categorize.module.css";
 
+// Not in use
 export function PageTutorial() {
   const res = {
     code: 200,

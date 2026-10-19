@@ -29,7 +29,9 @@ export async function getCategories(url) {
     return NaN;
   }
   const dt = getLocalDate();
+  console.log(dt)
   const response = await fetch(`${url}?date=${dt}`);
   const data = await response.json();
+  console.log(data)
   return data;
 }
